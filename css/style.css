@@ -1,8 +1,3 @@
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
 
 .btn {
   border-radius: 0;
@@ -13,14 +8,15 @@
   text-transform: uppercase;
 }
 
-.btn:focus, .btn:active:focus, .btn.active:focus {
+.btn:focus, .btn:active:focus, .btn:active:focus {
   outline: 0 none;
 }
 
-#buttons {
+.button-container {
 	overflow: hidden;
 	border-radius: 30px;
 	border: 10px solid;
+	box-sizing: border-box;
 	border-color: #2d2d2d;
 	background-color: #262626;
   height: 100%;
@@ -35,6 +31,7 @@
 html, body {
   height: 100%;
   width: 100%;
+	background: #000;
   background: rgba(0, 0, 0, 0);
 }
 
