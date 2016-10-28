@@ -1,0 +1,54 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.btn {
+  border-radius: 0;
+  padding: 14px 24px;
+  border: 0 none;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+  outline: 0 none;
+}
+
+#buttons {
+	overflow: hidden;
+	border-radius: 30px;
+	border: 10px solid;
+	border-color: #2d2d2d;
+	background-color: #262626;
+  height: 100%;
+  width: 100%;
+}
+
+.button {
+  height: 100%;
+  width: 100%;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0);
+}
+
+.grid {
+  float: left;
+  vertical-align: middle;
+}
+
+
+/*
+div {
+  width: 50%;
+  height: 50%;
+  float: left;
+  vertical-align: middle;
+}
+*/

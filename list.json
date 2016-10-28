@@ -1,0 +1,98 @@
+{
+	"colors": [
+		"#1abc9c",
+		"#2ecc71",
+		"#3498db",
+		"#9b59b6",
+		"#34495e",
+		"#16a085",
+		"#27ae60",
+		"#2980b9",
+		"#8e44ad",
+		"#2c3e50",
+		"#f1c40f",
+		"#e67e22",
+		"#e74c3c",
+		"#f39c12",
+		"#d35400",
+		"#c0392b"
+	],
+	"buttons": {
+		"apps": {
+			"buttons": {
+				"Cmder": {
+					"action": {
+						"method": "app",
+						"value": "C:\\Program Files (x86)\\cmder\\Cmder.exe"
+					}
+				},
+				"Atom": {
+					"action": {
+						"method": "cmd",
+						"value": "C:\\Users\\Boogie\\AppData\\Local\\atom\\Update.exe --processStart \"atom.exe\""
+					}
+				},
+				"Sublime Text": {
+					"action": {
+						"method": "app",
+						"value": "C:\\Program Files\\Sublime Text 3\\sublime_text.exe"
+					}
+				}
+			}
+		},
+		"Games": {
+			"buttons": {
+				"osu!": {
+					"action": {
+						"method": "app",
+						"value": "C:\\Users\\Boogie\\AppData\\Local\\osu!\\osu!.exe"
+					}
+				},
+				"Overwatch": {
+					"action": {
+						"method": "app",
+						"value": "C:\\Program Files (x86)\\Overwatch\\Overwatch Launcher.exe"
+					}
+				}
+			}
+		},
+		"URLS": {
+			"buttons": {
+				"Youtube": {
+					"action": {
+						"method": "url",
+						"value": "https://www.youtube.com"
+					}
+				},
+				"Google": {
+					"action": {
+						"method": "url",
+						"value": "https://www.google.com"
+					}
+				}
+			}
+		},
+		"Files": {
+			"buttons": {
+				"Code": {
+					"action": {
+						"method": "cmd",
+						"value": "explorer D:\\NewDocuments\\Code"
+					}
+				},
+				"D: Documents": {
+					"action": {
+						"method": "cmd",
+						"value": "explorer D:\\NewDocuments"
+					}
+				},
+				"C: Documents": {
+					"action": {
+						"method": "cmd",
+						"value": "explorer C:\\Users\\Boogie\\Documents\\New Documents"
+					}
+				}
+			}
+		}
+	}
+}
