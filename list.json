@@ -19,6 +19,7 @@
     ],
     "mainFolder": {
         "apps": {
+			"color": "#000",
 			"method": "folder",
             "value": {
                 "Cmder": {
