@@ -11,7 +11,7 @@ const open = require('open');
 const {
 	ipcRenderer
 } = require('electron');
-onWindow = json.buttons;
+onWindow = json.mainFolder;
 
 
 function loadGrid(obj) {
@@ -24,8 +24,7 @@ function loadGrid(obj) {
 
 		if (typeof obj[element].color === 'string') {
 			button.children("div").last().children("button").css("background-color", obj[element].color);
-		}
-		else if (typeof obj[element].randomColor === 'undefined' || (typeof obj[element].randomColor === 'boolean' && obj[element].randomColor)) {
+		} else if (typeof obj[element].randomColor === 'undefined' || (typeof obj[element].randomColor === 'boolean' && obj[element].randomColor)) {
 			button.children("div").last().children("button").css("background-color", colors[Math.floor(Math.random() * colors.length)]);
 		}
 	}
@@ -36,10 +35,37 @@ function loadGrid(obj) {
 
 }
 
+function jsonClick(target) {
+	if (typeof target.method != 'undefined' && typeof target.value != 'undefined') {
+		var close = true;
+		if (target.method === "folder") {
+			close = false;
+			loadGrid(target.value);
+			onWindow = target.value;
+			loadClick();
+		} else if (target.method === "url") {
+			open(target.value);
+		} else if (target.method === "app") {
+			let exec = require('child_process').exec;
+			exec("\"" + target.value + "\"");
+		} else if (target.method === "cmd") {
+			let exec = require('child_process').exec;
+			exec(target.value);
+		}
+		if (close) {
+			ipcRenderer.send("close");
+		}
+
+	}
+}
+
 function loadClick() {
 	$('.button').unbind('click');
 	$(".button").click(function(e) {
 		let target = onWindow[$(e.target).text()];
+		jsonClick(target);
+
+		/*
 		if (typeof target.buttons != 'undefined') {
 			loadGrid(target.buttons);
 			onWindow = target.buttons;
@@ -57,9 +83,11 @@ function loadClick() {
 				} else if (target.action.method == "url") {
 					open(target.action.value);
 				}
+
 				ipcRenderer.send("close");
 			}
 		}
+		*/
 		loadClick();
 	});
 }
@@ -72,7 +100,7 @@ function reload() {
 reload();
 
 ipcRenderer.on("loaded", function(event, arg) {
-	onWindow = json.buttons;
+	onWindow = json.mainFolder;
 	reload();
 });
 /*
