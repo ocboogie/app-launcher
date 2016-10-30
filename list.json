@@ -43,7 +43,7 @@
 					"value": "https://www.youtube.com"
 				},
 				"google": {
-					"method": "url"
+					"method": "url",
 					"value": "https://www.google.com/"
 				}
 			}
