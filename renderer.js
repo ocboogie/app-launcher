@@ -3,14 +3,21 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 const fs = require('fs');
-const json = require('./list.json');
-console.log(json);
-const colors = json.colors;
-const open = require('open');
-
 const {
 	ipcRenderer
 } = require('electron');
+try {
+	var json = require('./list.json');
+	//var json = JSON.parse(fs.readFileSync('./list.json'));
+} catch (err) {
+	$("body").empty();
+	$("body").css("background", "#fff");
+	$("body").append(err);
+
+	throw err;
+}
+const colors = json.colors;
+const open = require('open');
 onWindow = json.mainFolder;
 
 function jsonClick(target) {
@@ -82,6 +89,7 @@ function reload() {
 }
 
 reload();
+
 
 ipcRenderer.on("loaded", function(event, arg) {
 	onWindow = json.mainFolder;
