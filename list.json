@@ -19,7 +19,6 @@
     ],
     "mainFolder": {
         "apps": {
-			"color": "#000",
 			"method": "folder",
             "value": {
                 "Cmder": {
@@ -35,6 +34,19 @@
                     "value": "C:\\Program Files\\Sublime Text 3\\sublime_text.exe"
                 }
             }
-        }
+        },
+		"urls": {
+			"method": "folder",
+			"value": {
+				"youtube": {
+					"method": "url",
+					"value": "https://www.youtube.com"
+				},
+				"google": {
+					"method": "url",
+					"value": "https://www.google.com/"
+				}
+			}
+		}
     }
 }
