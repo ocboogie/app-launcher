@@ -20,6 +20,23 @@ const colors = json.colors;
 const open = require('open');
 onWindow = json.mainFolder;
 
+function dir2obj(path) {
+	let dir = fs.readdirSync(path);
+	let obj = {};
+	dir.forEach((item) => {
+		obj[item] = {};
+		if(fs.lstatSync(path+"/"+item).isDirectory()) {
+			obj[item].method = "folder";
+			obj[item].value = dir2obj(path+"/"+item);
+		} else {
+			obj[item].method = "app";
+			obj[item].value = path+"/"+item;
+		}
+
+	});
+	return obj;
+}
+
 function jsonClick(target) {
 	if (typeof target.method != 'undefined' && typeof target.value != 'undefined') {
 		var close = true;
@@ -27,9 +44,11 @@ function jsonClick(target) {
 		switch (target.method) {
 			case "folder":
 				close = false;
-				loadGrid(target.value);
-				onWindow = target.value;
-				loadClick();
+				loadFolder(target.value);
+				break;
+			case "sysFolder":
+				close = false;
+				loadFolder(dir2obj(target.value));
 				break;
 			case "url":
 				open(target.value);
@@ -46,6 +65,11 @@ function jsonClick(target) {
 		}
 
 	}
+}
+
+function loadFolder(value) {
+	onWindow = value;
+	reload();
 }
 
 function jsonArgs(obj, button) {
@@ -73,7 +97,6 @@ function loadGrid(obj) {
 
 }
 
-
 function loadClick() {
 	$('.button').unbind('click');
 	$(".button").click(function(e) {
@@ -89,7 +112,6 @@ function reload() {
 }
 
 reload();
-
 
 ipcRenderer.on("loaded", function(event, arg) {
 	onWindow = json.mainFolder;

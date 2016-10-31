@@ -13,7 +13,6 @@
 		"#f1c40f",
 		"#e67e22",
 		"#e74c3c",
-		"#ecf0f1",
 		"#95a5a6",
 		"#f39c12",
 		"#d35400",
@@ -43,15 +42,15 @@
             "value": {
                 "Cmder": {
                     "method": "app",
-                    "value": "C:\\Program Files (x86)\\cmder\\Cmder.exe"
+                    "value": "C:/Program Files (x86)/cmder/Cmder.exe"
                 },
                 "Atom": {
                     "method": "cmd",
-                    "value": "C:\\Users\\Boogie\\AppData\\Local\\atom\\Update.exe --processStart \"atom.exe\""
+                    "value": "C:/Users/Boogie/AppData/Local/atom/Update.exe --processStart \"atom.exe\""
                 },
                 "Sublime Text": {
                     "method": "app",
-                    "value": "C:\\Program Files\\Sublime Text 3\\sublime_text.exe"
+                    "value": "C:/Program Files/Sublime Text 3/sublime_text.exe"
                 }
             }
         },
@@ -67,6 +66,11 @@
 					"value": "https://www.google.com/"
 				}
 			}
+		},
+		"code": {
+			"method": "sysFolder",
+			"value": "C:/Users/Boogie/Desktop/Test"
 		}
+
     }
 }
