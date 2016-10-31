@@ -15,7 +15,7 @@ let mainWindow;
 
 function createWindow() {
 	let screen = electron.screen;
-		// Create the browser window.
+	// Create the browser window.
 	mainWindow = new BrowserWindow({
 		width: 500,
 		height: 500,
@@ -72,6 +72,7 @@ app.on('activate', function() {
 		createWindow();
 	}
 });
+
 
 ipcMain.on("close", function(event, arg) {
 	mainWindow.hide();
