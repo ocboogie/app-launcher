@@ -7,7 +7,7 @@ const {
     ipcRenderer
 } = require('electron');
 try {
-    var json = require('./list.json');
+    var json = require('./config.json');
     //var json = JSON.parse(fs.readFileSync('./list.json'));
 } catch (err) {
     $("body").empty();
