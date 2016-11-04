@@ -30,8 +30,12 @@ function createWindow() {
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
+    let key = 'Super+C';
+    if (process.platform === "darwin") {
+        key = 'Cmd+Ctrl+C';
+    }
 
-    globalShortcut.register('Super+C', () => {
+    globalShortcut.register(key, () => {
         if (mainWindow.isVisible()) {
             mainWindow.hide();
         } else {
@@ -41,7 +45,6 @@ function createWindow() {
             mainWindow.show();
         }
     });
-
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {

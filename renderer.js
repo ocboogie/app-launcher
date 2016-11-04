@@ -54,7 +54,12 @@ function jsonClick(target) {
                 open(target.value);
                 break;
             case "app":
-                exec("\"" + target.value + "\"");
+                if (process.platform === "darwin") {
+                    exec("open -a \"" + target.value + "\"");
+
+                } else {
+                    exec("\"" + target.value + "\"");
+                }
                 break;
             case "cmd":
                 exec(target.value);
