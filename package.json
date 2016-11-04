@@ -1,26 +1,26 @@
 {
-    "name": "electron-quick-start",
-    "version": "1.0.0",
-    "description": "A minimal Electron application",
-    "main": "main.js",
-    "scripts": {
-        "start": "electron ."
-    },
-    "repository": "https://github.com/electron/electron-quick-start",
-    "keywords": [
-        "Electron",
-        "quick",
-        "start",
-        "tutorial",
-        "demo"
-    ],
-    "author": "GitHub",
-    "license": "CC0-1.0",
-    "devDependencies": {
-        "electron": "^1.4.1"
-    },
-    "dependencies": {
-        "electron-reload": "^1.0.2",
-        "open": "0.0.5"
-    }
+  "name": "app-launcher",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/ocboogie/app-launcher",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "ocboogie",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  },
+  "dependencies": {
+    "electron-localshortcut": "^1.0.0",
+    "electron-reload": "^1.0.2",
+    "open": "0.0.5"
+  }
 }

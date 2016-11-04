@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 const electron = require('electron');
+const electronLocalshortcut = require('electron-localshortcut');
 
 const {
     app,
