@@ -8,6 +8,7 @@ const {
 } = require('electron');
 const open = require('open');
 const jsonlint = require('jsonlint');
+const exec = require('child_process').exec;
 
 try {
     var json = jsonlint.parse(fs.readFileSync('./config.json', 'utf8'));
@@ -25,29 +26,34 @@ try {
 const colors = json.colors;
 onWindow = json.mainFolder;
 
-function jsonClick(target) {
-    if (typeof target.method != 'undefined' && typeof target.value != 'undefined') {
-        var close = true;
-        let exec = require('child_process').exec;
-        switch (target.method) {
-            case "folder":
-                close = false;
-                loadFolder(target.value);
-                break;
-            case "url":
-                open(target.value);
-                break;
-            case "app":
-                if (process.platform === "darwin") {
-                    exec("open -a \"" + target.value + "\"");
+nodeTypes = {
+    "folder": (target) => {
+        loadFolder(target.value);
+        return false;
+    },
+    "url": (target) => {
+        open(target.value);
+    },
+    "app": (target) => {
+        if (process.platform === "darwin") {
+            exec("open -a \"" + target.value + "\"");
 
-                } else {
-                    exec("\"" + target.value + "\"");
-                }
-                break;
-            case "cmd":
-                exec(target.value);
-                break;
+        } else {
+            exec("\"" + target.value + "\"");
+        }
+    },
+    "cmd": (target) => {
+        exec(target.value);
+    }
+};
+
+function jsonClick(target) {
+    if (typeof target.method != 'undefined' && typeof target.value != 'undefined' && target.method in nodeTypes) {
+        var close = true;
+        for (var item in nodeTypes) {
+            if (item === target.method) {
+                close = nodeTypes[item](target);
+            }
         }
         if (close) {
             ipcRenderer.send("close");
@@ -86,18 +92,18 @@ function loadGrid(obj) {
 
 }
 
-function loadClick() {
+function loadClickEvents() {
     $('.button').unbind('click');
     $(".button").click(function(e) {
         let target = onWindow[$(e.target).text()];
         jsonClick(target);
-        loadClick();
+        loadClickEvents();
     });
 }
 
 function reload() {
     loadGrid(onWindow);
-    loadClick();
+    loadClickEvents();
 }
 
 reload();
