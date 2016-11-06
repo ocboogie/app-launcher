@@ -23,7 +23,7 @@ try {
 }
 
 const colors = json.colors;
-onWindow = json.mainFolder;
+windowHistory = [json.mainFolder];
 
 nodeTypes = {
     "folder": (target) => {
@@ -55,6 +55,12 @@ nodeTypes = {
         return true;
     }
 };
+
+$("body").mousedown((event) => {
+    if (event.which === 3) {
+        back();
+    }
+});
 
 function stripDataType(string) {
     if (string.split(".").length > 1) {
@@ -98,8 +104,17 @@ function dir2obj(path, long = false) {
 }
 
 function loadFolder(value) {
-    onWindow = value;
+
+    windowHistory.unshift(value);
+    console.log(windowHistory);
     reload();
+}
+
+function back() {
+    if (windowHistory.length > 1) {
+        windowHistory.shift();
+        reload();
+    }
 }
 
 function jsonArgs(obj, button) {
@@ -130,20 +145,20 @@ function loadGrid(obj) {
 function loadClickEvents() {
     $('.button-container .grid .btn').unbind('click');
     $(".button-container .grid .btn").click(function(e) {
-        let target = onWindow[$(e.target).text()];
+        let target = windowHistory[0][$(e.target).text()];
         jsonClick(target);
         loadClickEvents();
     });
 }
 
 function reload() {
-    loadGrid(onWindow);
+    loadGrid(windowHistory[0]);
     loadClickEvents();
 }
 
 reload();
 
 ipcRenderer.on("loaded", function(event, arg) {
-    onWindow = json.mainFolder;
+    windowHistory = [json.mainFolder];
     reload();
 });
