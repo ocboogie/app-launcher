@@ -6,18 +6,23 @@ const fs = require('fs');
 const {
     ipcRenderer
 } = require('electron');
+const open = require('open');
+const jsonlint = require('jsonlint');
+
 try {
-    var json = require('./config.json');
+    var json = jsonlint.parse(fs.readFileSync('./config.json', 'utf8'));
     //var json = JSON.parse(fs.readFileSync('./list.json'));
 } catch (err) {
+    console.log(JSON.stringify(err.toString()));
     $("body").empty();
     $("body").css("background", "#fff");
-    $("body").append(err);
+    $("body").append("<pre>" + err.toString().replace("\r", "") + "</pre>");
+    //$("body").append("<textarea rows=\"8\" cols=\"40\">" + err.toString().replace("\r", " ") + "</textarea>");
 
     throw err;
 }
+
 const colors = json.colors;
-const open = require('open');
 onWindow = json.mainFolder;
 
 function dir2obj(path) {

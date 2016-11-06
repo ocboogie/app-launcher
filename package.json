@@ -21,6 +21,7 @@
   "dependencies": {
     "electron-localshortcut": "^1.0.0",
     "electron-reload": "^1.0.2",
+    "jsonlint": "^1.6.2",
     "open": "0.0.5"
   }
 }
