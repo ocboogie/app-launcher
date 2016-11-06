@@ -14,7 +14,6 @@ try {
     var json = jsonlint.parse(fs.readFileSync('./config.json', 'utf8'));
     //var json = JSON.parse(fs.readFileSync('./list.json'));
 } catch (err) {
-    console.log(JSON.stringify(err.toString()));
     $("body").empty();
     $("body").css("background", "#fff");
     $("body").append("<pre>" + err.toString().replace("\r", "") + "</pre>");
@@ -33,6 +32,10 @@ nodeTypes = {
     },
     "sys short folder": (target) => {
         loadFolder(dir2obj(target.value));
+        return false;
+    },
+    "sys long folder": (target) => {
+        loadFolder(dir2obj(target.value, true));
         return false;
     },
     "url": (target) => {
@@ -57,7 +60,7 @@ function stripDataType(string) {
     if (string.split(".").length > 1) {
         return string.split(".").slice(0, -1).join(".");
     } else {
-        return string.join(".");
+        return string;
     }
 }
 
@@ -82,7 +85,6 @@ function dir2obj(path, long = false) {
     dir.forEach((item) => {
         let name = stripDataType(item);
         obj[name] = {};
-
         if (fs.lstatSync(path + "/" + item).isDirectory() && long) {
             obj[name].method = "folder";
             obj[name].value = dir2obj(path + "/" + item);
