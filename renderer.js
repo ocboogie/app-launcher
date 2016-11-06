@@ -25,23 +25,6 @@ try {
 const colors = json.colors;
 onWindow = json.mainFolder;
 
-function dir2obj(path) {
-    let dir = fs.readdirSync(path);
-    let obj = {};
-    dir.forEach((item) => {
-        obj[item] = {};
-        if (fs.lstatSync(path + "/" + item).isDirectory()) {
-            obj[item].method = "folder";
-            obj[item].value = dir2obj(path + "/" + item);
-        } else {
-            obj[item].method = "app";
-            obj[item].value = path + "/" + item;
-        }
-
-    });
-    return obj;
-}
-
 function jsonClick(target) {
     if (typeof target.method != 'undefined' && typeof target.value != 'undefined') {
         var close = true;
@@ -50,10 +33,6 @@ function jsonClick(target) {
             case "folder":
                 close = false;
                 loadFolder(target.value);
-                break;
-            case "sysFolder":
-                close = false;
-                loadFolder(dir2obj(target.value));
                 break;
             case "url":
                 open(target.value);
