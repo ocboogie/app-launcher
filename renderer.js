@@ -31,25 +31,39 @@ nodeTypes = {
         loadFolder(target.value);
         return false;
     },
+    "sys short folder": (target) => {
+        loadFolder(dir2obj(target.value));
+        return false;
+    },
     "url": (target) => {
         open(target.value);
+        return true;
     },
     "app": (target) => {
         if (process.platform === "darwin") {
             exec("open -a \"" + target.value + "\"");
-
         } else {
             exec("\"" + target.value + "\"");
         }
+        return true;
     },
     "cmd": (target) => {
         exec(target.value);
+        return true;
     }
 };
 
+function stripDataType(string) {
+    if (string.split(".").length > 1) {
+        return string.split(".").slice(0, -1).join(".");
+    } else {
+        return string.join(".");
+    }
+}
+
 function jsonClick(target) {
     if (typeof target.method != 'undefined' && typeof target.value != 'undefined' && target.method in nodeTypes) {
-        var close = true;
+        let close = false;
         for (var item in nodeTypes) {
             if (item === target.method) {
                 close = nodeTypes[item](target);
@@ -62,6 +76,25 @@ function jsonClick(target) {
     }
 }
 
+function dir2obj(path, long = false) {
+    let dir = fs.readdirSync(path);
+    let obj = {};
+    dir.forEach((item) => {
+        let name = stripDataType(item);
+        obj[name] = {};
+
+        if (fs.lstatSync(path + "/" + item).isDirectory() && long) {
+            obj[name].method = "folder";
+            obj[name].value = dir2obj(path + "/" + item);
+        } else {
+            obj[name].method = "app";
+            obj[name].value = path + "/" + item;
+        }
+
+    });
+    return obj;
+}
+
 function loadFolder(value) {
     onWindow = value;
     reload();
@@ -70,7 +103,7 @@ function loadFolder(value) {
 function jsonArgs(obj, button) {
     if (typeof obj.color === 'string') {
         button.children("div").last().children("button").css("background-color", obj.color);
-    } else if (typeof obj.randomColor === 'undefined' || (typeof obj.randomColor === 'boolean' && obj.randomColor)) {
+    } else {
         button.children("div").last().children("button").css("background-color", colors[Math.floor(Math.random() * colors.length)]);
     }
 }
@@ -81,7 +114,7 @@ function loadGrid(obj) {
     gridSize = parseFloat(100 * 1.0 / Math.ceil(Math.sqrt(Object.keys(obj).length)));
     for (var element in obj) {
 
-        let button = $(".button-container").append("<div class='grid'><button class='btn button'>" + element + "</button></div>");
+        let button = $(".button-container").append("<div class='grid'><button class='btn'>" + element + "</button></div>");
         jsonArgs(obj[element], button);
 
     }
@@ -93,8 +126,8 @@ function loadGrid(obj) {
 }
 
 function loadClickEvents() {
-    $('.button').unbind('click');
-    $(".button").click(function(e) {
+    $('.button-container .grid .btn').unbind('click');
+    $(".button-container .grid .btn").click(function(e) {
         let target = onWindow[$(e.target).text()];
         jsonClick(target);
         loadClickEvents();
@@ -112,10 +145,3 @@ ipcRenderer.on("loaded", function(event, arg) {
     onWindow = json.mainFolder;
     reload();
 });
-/*
-fs.readFile('./list.json', (err, data) => {
-	if (err) throw err;
-	loadGrid(data);
-
-});
-*/
