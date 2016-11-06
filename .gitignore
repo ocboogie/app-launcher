@@ -38,3 +38,5 @@ jspm_packages
 
 # Custom json file
 config.json
+
+.DS_Store
