@@ -87,18 +87,21 @@ function jsonClick(target) {
 
 function dir2obj(path, long = false) {
     let dir = fs.readdirSync(path);
-    let obj = {};
+    let obj = [];
     dir.forEach((item) => {
-        let name = stripDataType(item);
-        obj[name] = {};
-        if (fs.lstatSync(path + "/" + item).isDirectory() && long) {
-            obj[name].method = "folder";
-            obj[name].value = dir2obj(path + "/" + item);
-        } else {
-            obj[name].method = "app";
-            obj[name].value = path + "/" + item;
+        if (long || !fs.lstatSync(path + "/" + item).isDirectory()) {
+            let name = stripDataType(item);
+            let index = obj.push({});
+            console.log(obj[index - 1]);
+            obj[index - 1].name = name;
+            if (fs.lstatSync(path + "/" + item).isDirectory() && long) {
+                obj[index - 1].method = "folder";
+                obj[index - 1].value = dir2obj(path + "/" + item);
+            } else {
+                obj[index - 1].method = "app";
+                obj[index - 1].value = path + "/" + item;
+            }
         }
-
     });
     return obj;
 }
@@ -106,7 +109,6 @@ function dir2obj(path, long = false) {
 function loadFolder(value) {
 
     windowHistory.unshift(value);
-    console.log(windowHistory);
     reload();
 }
 
@@ -118,27 +120,28 @@ function back() {
 }
 
 function jsonArgs(obj, button) {
+    if (typeof obj.name === 'string') {
+        button.children("div").last().children("button").html(obj.name);
+    }
     if (typeof obj.color === 'string') {
         button.children("div").last().children("button").css("background-color", obj.color);
     } else {
         button.children("div").last().children("button").css("background-color", colors[Math.floor(Math.random() * colors.length)]);
     }
     if (typeof obj.img === 'string') {
-        console.log("url(" + obj.img +")");
-        button.children("div").last().children("button").css("background-image", "url('" + obj.img +"')");
+        button.children("div").last().children("button").css("background-image", "url('" + obj.img + "')");
     }
 }
 
 function loadGrid(obj) {
     $(".button-container").empty();
     //var json = JSON.parse(data);
-    gridSize = parseFloat(100 * 1.0 / Math.ceil(Math.sqrt(Object.keys(obj).length)));
-    for (var element in obj) {
+    gridSize = parseFloat(100 * 1.0 / Math.ceil(Math.sqrt(obj.length)));
+    obj.forEach((element) => {
+        let button = $(".button-container").append("<div class='grid'><button class='btn'></button></div>");
+        jsonArgs(element, button);
 
-        let button = $(".button-container").append("<div class='grid'><button class='btn'>" + element + "</button></div>");
-        jsonArgs(obj[element], button);
-
-    }
+    });
     $(".grid").css({
         "width": gridSize + "%",
         "height": gridSize + "%"
@@ -149,7 +152,7 @@ function loadGrid(obj) {
 function loadClickEvents() {
     $('.button-container .grid .btn').unbind('click');
     $(".button-container .grid .btn").click(function(e) {
-        let target = windowHistory[0][$(e.target).text()];
+        let target = windowHistory[0][$('.button-container .grid .btn').index(this)];
         jsonClick(target);
         loadClickEvents();
     });
