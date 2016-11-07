@@ -121,7 +121,7 @@ function back() {
 
 function jsonArgs(obj, button) {
     if (typeof obj.name === 'string') {
-        button.children("div").last().children("button").html(obj.name);
+        button.children("div").last().children("button").children("span").html(obj.name);
     }
     if (typeof obj.color === 'string') {
         button.children("div").last().children("button").css("background-color", obj.color);
@@ -138,7 +138,7 @@ function loadGrid(obj) {
     //var json = JSON.parse(data);
     gridSize = parseFloat(100 * 1.0 / Math.ceil(Math.sqrt(obj.length)));
     obj.forEach((element) => {
-        let button = $(".button-container").append("<div class='grid'><button class='btn'></button></div>");
+        let button = $(".button-container").append("<div class='grid'><button class='btn'><span></span></button></div>");
         jsonArgs(element, button);
 
     });
