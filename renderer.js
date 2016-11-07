@@ -123,6 +123,10 @@ function jsonArgs(obj, button) {
     } else {
         button.children("div").last().children("button").css("background-color", colors[Math.floor(Math.random() * colors.length)]);
     }
+    if (typeof obj.img === 'string') {
+        console.log("url(" + obj.img +")");
+        button.children("div").last().children("button").css("background-image", "url('" + obj.img +"')");
+    }
 }
 
 function loadGrid(obj) {
