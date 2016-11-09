@@ -92,7 +92,6 @@ function dir2obj(path, long = false) {
         if (long || !fs.lstatSync(path + "/" + item).isDirectory()) {
             let name = stripDataType(item);
             let index = obj.push({});
-            console.log(obj[index - 1]);
             obj[index - 1].name = name;
             if (fs.lstatSync(path + "/" + item).isDirectory() && long) {
                 obj[index - 1].method = "folder";
@@ -121,38 +120,68 @@ function back() {
 
 function jsonArgs(obj, button) {
     if (typeof obj.name === 'string') {
-        button.children("div").last().children("button").children("span").html(obj.name);
+        button.children("div").last().children("div").children("span").html(obj.name);
     }
     if (typeof obj.color === 'string') {
-        button.children("div").last().children("button").css("background-color", obj.color);
+        button.children("div").last().css("background-color", obj.color);
     } else {
-        button.children("div").last().children("button").css("background-color", colors[Math.floor(Math.random() * colors.length)]);
+        button.children("div").last().css("background-color", colors[Math.floor(Math.random() * colors.length)]);
     }
     if (typeof obj.img === 'string') {
-        button.children("div").last().children("button").css("background-image", "url('" + obj.img + "')");
+        button.children("div").last().css("background-image", "url('" + obj.img + "')");
     }
 }
+
+;(function($) {
+    $.fn.textfill = function(options) {
+        var fontSize = options.maxFontPixels;
+        var ourText = $('span:visible:first', this);
+        var maxHeight = $(this).height();
+        var maxWidth = $(this).width();
+        var textHeight;
+        var textWidth;
+        do {
+            ourText.css('font-size', fontSize);
+            textHeight = ourText.height();
+            textWidth = ourText.width();
+            fontSize = fontSize - 1;
+        } while ((textHeight > maxHeight || textWidth > maxWidth) && fontSize > 3);
+        return this;
+    }
+})(jQuery);
+
+$(document).ready(function() {
+    $('.jtextfill').textfill({ maxFontPixels: 36 });
+});
 
 function loadGrid(obj) {
     $(".button-container").empty();
     //var json = JSON.parse(data);
     gridSize = parseFloat(100 * 1.0 / Math.ceil(Math.sqrt(obj.length)));
     obj.forEach((element) => {
-        let button = $(".button-container").append("<div class='grid'><button class='btn'><span></span></button></div>");
+        let button = $(".button-container").append("<div class='grid'><div class='text'><span></span></div></div>");
+        //let button = $(".button-container").append("<div class='grid'><button class='btn'><span></span></button></div>");
         jsonArgs(element, button);
-
     });
     $(".grid").css({
         "width": gridSize + "%",
-        "height": gridSize + "%"
+        "height": gridSize + "%",
     });
-
+    $(".grid div span").each((index) => {
+        
+        console.log($(".grid div span").eq(index));
+        if ($(".grid div span").eq(index).text().includes(" ")) {
+            $(".grid div span").eq(index).fitText(0.7);
+        } else {
+            $(".grid div span").eq(index).fitText(1.001);
+        }
+    });
 }
 
 function loadClickEvents() {
-    $('.button-container .grid .btn').unbind('click');
-    $(".button-container .grid .btn").click(function(e) {
-        let target = windowHistory[0][$('.button-container .grid .btn').index(this)];
+    $('.button-container .grid').unbind('click');
+    $(".button-container .grid").click(function(e) {
+        let target = windowHistory[0][$('.button-container .grid').index(this)];
         jsonClick(target);
         loadClickEvents();
     });

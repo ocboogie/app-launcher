@@ -1,28 +1,3 @@
-.btn {
-    background-size: cover;
-    border-radius: 0;
-    font-weight: 700;
-    text-transform: uppercase;
-    white-space: normal;
-    height: 100%;
-    width: 100%;
-}
-
-.btn:focus, .btn:active:focus, .btn:active:focus {
-    outline: 0 none;
-}
-
-.button-container {
-    overflow: hidden;
-    border-radius: 30px;
-    border: 10px solid;
-    box-sizing: border-box;
-    border-color: #2d2d2d;
-    background-color: #262626;
-    height: 100%;
-    width: 100%;
-}
-
 
 html, body {
     height: 100%;
@@ -31,17 +6,28 @@ html, body {
     background: rgba(0, 0, 0, 0);
 }
 
+.button-container {
+    overflow: hidden;
+    border-radius: 30px;
+    background-color: #262626;
+    height: 100%;
+    width: 100%;
+}
+
 .grid {
+    overflow: hidden;
+    cursor: pointer;
     float: left;
+}
+
+.text {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+}
+
+.text > span {
+    display: table-cell;
     vertical-align: middle;
 }
-
-
-/*
-div {
-  width: 50%;
-  height: 50%;
-  float: left;
-  vertical-align: middle;
-}
-*/
