@@ -132,28 +132,6 @@ function jsonArgs(obj, button) {
     }
 }
 
-;(function($) {
-    $.fn.textfill = function(options) {
-        var fontSize = options.maxFontPixels;
-        var ourText = $('span:visible:first', this);
-        var maxHeight = $(this).height();
-        var maxWidth = $(this).width();
-        var textHeight;
-        var textWidth;
-        do {
-            ourText.css('font-size', fontSize);
-            textHeight = ourText.height();
-            textWidth = ourText.width();
-            fontSize = fontSize - 1;
-        } while ((textHeight > maxHeight || textWidth > maxWidth) && fontSize > 3);
-        return this;
-    }
-})(jQuery);
-
-$(document).ready(function() {
-    $('.jtextfill').textfill({ maxFontPixels: 36 });
-});
-
 function loadGrid(obj) {
     $(".button-container").empty();
     //var json = JSON.parse(data);
@@ -167,14 +145,8 @@ function loadGrid(obj) {
         "width": gridSize + "%",
         "height": gridSize + "%",
     });
-    $(".grid div span").each((index) => {
-        
-        console.log($(".grid div span").eq(index));
-        if ($(".grid div span").eq(index).text().includes(" ")) {
-            $(".grid div span").eq(index).fitText(0.7);
-        } else {
-            $(".grid div span").eq(index).fitText(1.001);
-        }
+    $(".grid div").each((index) => {
+        $(".grid div").eq(index).textfill();
     });
 }
 
