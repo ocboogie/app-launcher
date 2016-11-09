@@ -58,8 +58,14 @@ nodeTypes = {
 
 $("body").mousedown((event) => {
     if (event.which === 3) {
-        back();
+        if (windowHistory[0] == json.mainFolder) {
+            ipcRenderer.send("close");
+        }
+        else {
+            back();
+        }
     }
+
 });
 
 function stripDataType(string) {
